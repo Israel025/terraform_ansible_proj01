@@ -8,4 +8,10 @@
 secrets.auto.tfvars
 
 #pem key files
-holidayKey.pem 
+holidayKey.pem
+
+# Provider/dependencies directory
+.terraform/
+
+# terraform state file
+terraform.tfstate
