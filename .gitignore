@@ -3,3 +3,9 @@
 
 # Ada Library Information
 *.ali
+
+# terraform secrets
+secrets.auto.tfvars
+
+#pem key files
+holidayKey.pem 
