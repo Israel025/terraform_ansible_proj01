@@ -63,3 +63,39 @@ variable "inst-sg_ingress_rules" {
     cidr_blocks = list(string)
   }))
 }
+
+variable "inst-sg_egress_rules" {
+  type = map(object({
+    description = string
+    from_port   = number
+    to_port     = number
+    protocol    = string
+    cidr_blocks = list(string)
+  }))
+}
+
+variable "nacl1_ingress_rules" {
+  type = map(object({
+    protocol   = string
+    rule_no    = number
+    action     = string
+    cidr_block = string
+    from_port  = number
+    to_port    = number
+  }))
+}
+
+variable "nacl1_egress_rules" {
+  type = map(object({
+    protocol   = string
+    rule_no    = number
+    action     = string
+    cidr_block = string
+    from_port  = number
+    to_port    = number
+  }))
+}
+
+variable "nacl1-tags" {
+  type = map(string)
+}

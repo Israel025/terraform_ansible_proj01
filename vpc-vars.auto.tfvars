@@ -77,3 +77,39 @@ inst-sg_ingress_rules = {
     cidr_blocks = ["0.0.0.0/0"]
   }
 }
+
+inst-sg_egress_rules = {
+  "egrs_rule1" = {
+    description = "Allow all outgoing traffic"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+nacl1_ingress_rules = {
+  "ingrs_rule1" = {
+    protocol   = "-1"
+    rule_no    = 100
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 0
+    to_port    = 0
+  }
+}
+
+nacl1_egress_rules = {
+  "egrs_rule1" = {
+    protocol   = "-1"
+    rule_no    = 100
+    action     = "allow"
+    cidr_block = "0.0.0.0/0"
+    from_port  = 0
+    to_port    = 0
+  }
+}
+
+nacl1-tags = {
+  "Name" = "nacl1_rules"
+}

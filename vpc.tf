@@ -55,10 +55,41 @@ resource "aws_route_table_association" "subnets_route" {
   route_table_id = aws_route_table.public_route.id
 }
 
+#create Network Access Control List for the vpc and subnets
+resource "aws_network_acl" "vpc_nacl1" {
+  vpc_id = aws_vpc.terraform_vpc.id
+  subnet_ids = [for subs in aws_subnet.terraform-vpc_subnets : subs.id]
+   dynamic "ingress" {
+    for_each = var.nacl1_ingress_rules
+    content {
+      protocol = ingress.value["protocol"]
+      rule_no   = ingress.value["rule_no"]
+      action     = ingress.value["action"]
+      cidr_block    = ingress.value["cidr_block"]
+      from_port = ingress.value["from_port"]
+      to_port = ingress.value["to_port"]
+    }
+  }
+
+  dynamic "egress" {
+    for_each = var.nacl1_egress_rules
+    content {
+      protocol = egress.value["protocol"]
+      rule_no   = egress.value["rule_no"]
+      action     = egress.value["action"]
+      cidr_block    = egress.value["cidr_block"]
+      from_port = egress.value["from_port"]
+      to_port = egress.value["to_port"]
+    }
+  }
+
+  tags = var.nacl1-tags
+}
+
 # create security group rules for the public subnets
 resource "aws_security_group" "public-subnets_SG" {
   name        = var.pubSG_name
-  description = "SSH, HTTP & HTTPS Alllow rules for the public subnets"
+  description = "Defines the set of Alllow rules for the public subnets"
   vpc_id      = aws_vpc.terraform_vpc.id
 
   dynamic "ingress" {
@@ -71,13 +102,22 @@ resource "aws_security_group" "public-subnets_SG" {
       cidr_blocks = ingress.value["cidr_blocks"]
     }
   }
-  egress {
-    description = "Allow all outgoing traffic"
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = [var.cidr_anywhere]
+
+  dynamic "egress" {
+    for_each = var.inst-sg_egress_rules
+    content {
+      description = egress.value["description"]
+      from_port   = egress.value["from_port"]
+      to_port     = egress.value["to_port"]
+      protocol    = egress.value["protocol"]
+      cidr_blocks = egress.value["cidr_blocks"]
+    }
   }
 
   tags = var.pubSG-tags
+}
+
+
+output "sub_len" {
+  value = [for subs in aws_subnet.terraform-vpc_subnets : subs.id]
 }
