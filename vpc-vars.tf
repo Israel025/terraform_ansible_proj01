@@ -41,3 +41,25 @@ variable "pub-route_vals" {
     tags              = map(string)
   }))
 }
+
+variable "pubSG_name" {
+  type = string
+}
+
+variable "pubSG-tags" {
+  type = map(string)
+}
+
+variable "cidr_anywhere" {
+  type = string
+}
+
+variable "inst-sg_ingress_rules" {
+  type = map(object({
+    description = string
+    from_port   = number
+    to_port     = number
+    protocol    = string
+    cidr_blocks = list(string)
+  }))
+}

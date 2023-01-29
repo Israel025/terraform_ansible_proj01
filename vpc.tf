@@ -25,10 +25,6 @@ resource "aws_internet_gateway" "vpc-igw" {
   tags = {
     Name = var.igw_name-tag1
   }
-
-  depends_on = [
-    aws_vpc.terraform_vpc
-  ]
 }
 
 # create preffered amount of subnets in the vpc (3 subnets in different availability zones)
@@ -39,10 +35,6 @@ resource "aws_subnet" "terraform-vpc_subnets" {
   cidr_block        = each.value["subnet_cidr"]
   availability_zone = each.value["av_zone"]
   tags              = each.value["tags"]
-
-  depends_on = [
-    aws_vpc.terraform_vpc
-  ]
 }
 
 # setup a route table for the created subnets
@@ -54,24 +46,38 @@ resource "aws_route_table" "public_route" {
     gateway_id = aws_internet_gateway.vpc-igw.id
   }
   tags = var.pub-route_vals["rule-1"]["tags"]
-
-  depends_on = [
-    aws_vpc.terraform_vpc,
-    aws_internet_gateway.vpc-igw
-  ]
 }
-
-output "subnet_ids" {
-  value       = aws_subnet.terraform-vpc_subnets[each.key].id
-  description = "The IDs for all created subnets"
-}
-
-# output "subnet_ids" {
-#   value = []
-# }
 
 # associate the route table to the subnets created
-# resource "aws_route_table_association" "subnets_route" {
-#   subnet_id      = aws_subnet.terraform-vpc_subnets[each.key]
-#   route_table_id = aws_route_table.public_route.id
-# }
+resource "aws_route_table_association" "subnets_route" {
+  for_each       = aws_subnet.terraform-vpc_subnets
+  subnet_id      = each.value["id"]
+  route_table_id = aws_route_table.public_route.id
+}
+
+# create security group rules for the public subnets
+resource "aws_security_group" "public-subnets_SG" {
+  name        = var.pubSG_name
+  description = "SSH, HTTP & HTTPS Alllow rules for the public subnets"
+  vpc_id      = aws_vpc.terraform_vpc.id
+
+  dynamic "ingress" {
+    for_each = var.inst-sg_ingress_rules
+    content {
+      description = ingress.value["description"]
+      from_port   = ingress.value["from_port"]
+      to_port     = ingress.value["to_port"]
+      protocol    = ingress.value["protocol"]
+      cidr_blocks = ingress.value["cidr_blocks"]
+    }
+  }
+  egress {
+    description = "Allow all outgoing traffic"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = [var.cidr_anywhere]
+  }
+
+  tags = var.pubSG-tags
+}
