@@ -7,6 +7,6 @@ provider "aws" {
 }
 #============================================
 
-output "sub_len" {
-  value = [for subs in aws_subnet.terraform-vpc_subnets : subs.id]
-}
+# output "sub_len" {
+#   value = [for subs in aws_subnet.terraform-vpc_subnets : subs.id]
+# }

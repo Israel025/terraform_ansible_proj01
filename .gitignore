@@ -6,12 +6,16 @@
 
 # terraform secrets
 secrets.auto.tfvars
+terraform_config/secrets.auto.tfvars
 
 #pem key files
 holidayKey.pem
+ansible_config/holidayKey.pem
 
 # Provider/dependencies directory
 .terraform/
+terraform_config/.terraform/
 
 # terraform state file
 terraform.tfstate
+terraform_config/terraform.tfstate
