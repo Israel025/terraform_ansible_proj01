@@ -1,32 +1,40 @@
 variable "aws_access_key" {
-  type = string
+  description = "AWS access key variable definition"
+  type        = string
 }
 
 variable "aws_secret_key" {
-  type = string
+  description = "AWS secret key variable definition"
+  type        = string
 }
 
 variable "aws_vpc_region" {
-  type = string
+  description = "AWS preferred vpc region variable"
+  type        = string
 }
 
 variable "vpc_cidr" {
-  type = string
+  description = "preferred cidr for the created vpc"
+  type        = string
 }
 
 variable "tenancy_type" {
-  type = string
+  description = "declaring the tenancy type for the vpc"
+  type        = string
 }
 
 variable "vpc_name-tag1" {
-  type = string
+  description = "variable for the name tag for the created vpc"
+  type        = string
 }
 
 variable "igw_name-tag1" {
-  type = string
+  description = "Internet gateway name tage variable"
+  type        = string
 }
 
-variable "subnet_vals" {
+variable "subnet_values" {
+  description = "This variable holds the values to be populated for the vpc subnets"
   type = map(object({
     av_zone       = string
     subnet_cidr   = string
@@ -35,7 +43,8 @@ variable "subnet_vals" {
   }))
 }
 
-variable "pub-route_vals" {
+variable "pub-route_values" {
+  description = "holds the values for creating the aws route table resource"
   type = map(object({
     public-route_cidr = string
     tags              = map(string)
@@ -43,18 +52,22 @@ variable "pub-route_vals" {
 }
 
 variable "pubSG_name" {
-  type = string
+  description = "holds the preferred name for the public security group"
+  type        = string
 }
 
 variable "pubSG-tags" {
-  type = map(string)
+  description = "holds the preferred tags for the public security group"
+  type        = map(string)
 }
 
 variable "cidr_anywhere" {
-  type = string
+  description = "holds the 'anywhere' cidr value "
+  type        = string
 }
 
 variable "inst-sg_ingress_rules" {
+  description = "variable for instances security group ingress rules"
   type = map(object({
     description = string
     from_port   = number
@@ -65,6 +78,7 @@ variable "inst-sg_ingress_rules" {
 }
 
 variable "inst-sg_egress_rules" {
+  description = "variable for instances security group egress rules"
   type = map(object({
     description = string
     from_port   = number
@@ -75,6 +89,7 @@ variable "inst-sg_egress_rules" {
 }
 
 variable "nacl1_ingress_rules" {
+  description = "variable for network access control list ingress rules"
   type = map(object({
     protocol   = string
     rule_no    = number
@@ -86,6 +101,7 @@ variable "nacl1_ingress_rules" {
 }
 
 variable "nacl1_egress_rules" {
+  description = "variable for network access control list egress rules"
   type = map(object({
     protocol   = string
     rule_no    = number
@@ -97,5 +113,99 @@ variable "nacl1_egress_rules" {
 }
 
 variable "nacl1-tags" {
-  type = map(string)
+  description = "variable for network access control list tags"
+  type        = map(string)
+}
+
+variable "app-lb_values" {
+  description = "Variable definiations for the Application load balancer resource"
+  type = map(object({
+    name        = string
+    internal    = bool
+    lb_type     = string
+    sec_grps    = list(string)
+    subnets     = list(string)
+    del_protect = bool
+    tags        = map(string)
+  }))
+}
+
+variable "lb_SG_name" {
+  description = "Holds the preferred name for the load balancer security group"
+  type        = string
+}
+
+variable "LB1-sg_ingress_rules" {
+  description = "variable for application load balancer security group ingress rules"
+  type = map(object({
+    description = string
+    from_port   = number
+    to_port     = number
+    protocol    = string
+    cidr_blocks = list(string)
+  }))
+}
+
+variable "LB1-sg_egress_rules" {
+  description = "variable for application load balancer security group egress rules"
+  type = map(object({
+    description = string
+    from_port   = number
+    to_port     = number
+    protocol    = string
+    cidr_blocks = list(string)
+  }))
+}
+
+variable "appLB_TG_values" {
+  description = "holds the values for creating the aws load balancer target group"
+  type = map(object({
+    name             = string
+    port             = number
+    protocol         = string
+    vpc_id           = string
+    target_type      = string
+    healthy_thresh   = number
+    interval         = number
+    path             = string
+    timeout          = number
+    unhealthy_thresh = number
+    matcher          = string
+  }))
+}
+
+variable "LB-listens_values" {
+  description = "holds the values for creating the aws load balancer listener resource"
+  type = map(object({
+    port     = string
+    protocol = string
+    type     = string
+  }))
+}
+
+variable "LB-listener_rules" {
+  description = "holds the values for creating the aws load balancer listener rules resource"
+  type = map(object({
+    priority       = number
+    type           = string
+    pattern_values = list(string)
+  }))
+}
+
+variable "web_servers_values" {
+  description = "holds the values for setting-up ec2 instance resources"
+  type = map(object({
+    ami        = string
+    inst_type  = string
+    av_zone    = string
+    key_name   = string
+    sec_groups = list(string)
+    subnet_id  = string
+    tags       = map(string)
+  }))
+}
+
+variable "LB-TG_attach_port" {
+  description = "Defines the port for the load balancing attachment resource"
+  type        = number
 }

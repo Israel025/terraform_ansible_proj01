@@ -4,10 +4,10 @@ resource "aws_route_table" "public_route" {
   vpc_id = aws_vpc.terraform_vpc.id
 
   route {
-    cidr_block = var.pub-route_vals["rule-1"]["public-route_cidr"]
+    cidr_block = var.pub-route_values["rule-1"]["public-route_cidr"]
     gateway_id = aws_internet_gateway.vpc-igw.id
   }
-  tags = var.pub-route_vals["rule-1"]["tags"]
+  tags = var.pub-route_values["rule-1"]["tags"]
 }
 
 # associate the route table to the subnets created

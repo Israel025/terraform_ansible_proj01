@@ -28,4 +28,8 @@ resource "aws_security_group" "public-subnets_SG" {
   }
 
   tags = var.pubSG-tags
+
+  depends_on = [
+    aws_vpc.terraform_vpc
+  ]
 }
