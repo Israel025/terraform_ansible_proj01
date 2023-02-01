@@ -1,7 +1,8 @@
-vpc_cidr      = "10.0.0.0/24"
-tenancy_type  = "default"
-vpc_name-tag1 = "Terraform-VPC"
-igw_name-tag1 = "Terraform-IGW"
+vpc_cidr        = "10.0.0.0/24"
+tenancy_type    = "default"
+vpc_name-tag1   = "Terraform-VPC"
+igw_name-tag1   = "Terraform-IGW"
+local-file_path = "../ansible_config/host-inventory"
 subnet_values = {
   "subnet-A" = {
     av_zone       = "us-east-1a"
@@ -41,7 +42,7 @@ pub-route_values = {
 pubSG_name    = "pubSG_allow_rules"
 cidr_anywhere = "0.0.0.0/0"
 pubSG-tags = {
-  "Name" = "pubSG_rules"
+  "Name" = "Public Server-SG"
 }
 
 inst-sg_ingress_rules = {
@@ -128,7 +129,15 @@ app-lb_values = {
   }
 }
 
-lb_SG_name = "appLB_SG"
+lb_SG_values = {
+  "SG1_values" = {
+    name = "appLB_SG"
+    tags = {
+      Name = "Load Balancer-SG"
+    }
+  }
+}
+
 
 LB1-sg_ingress_rules = {
   "ingrs_rule1" = {
@@ -195,7 +204,7 @@ web_servers_values = {
     ami        = "ami-00874d747dde814fa"
     inst_type  = "t2.micro"
     av_zone    = ""
-    key_name   = "holidayKey.pem"
+    key_name   = "holidayKey"
     sec_groups = []
     subnet_id  = ""
 

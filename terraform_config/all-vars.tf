@@ -130,10 +130,14 @@ variable "app-lb_values" {
   }))
 }
 
-variable "lb_SG_name" {
+variable "lb_SG_values" {
   description = "Holds the preferred name for the load balancer security group"
-  type        = string
+  type = map(object({
+    name = string
+    tags = map(string)
+  }))
 }
+
 
 variable "LB1-sg_ingress_rules" {
   description = "variable for application load balancer security group ingress rules"
@@ -208,4 +212,9 @@ variable "web_servers_values" {
 variable "LB-TG_attach_port" {
   description = "Defines the port for the load balancing attachment resource"
   type        = number
+}
+
+variable "local-file_path" {
+  description = "States where the ansible inventory file should be created"
+  type        = string
 }

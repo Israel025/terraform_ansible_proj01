@@ -13,7 +13,7 @@ resource "aws_lb" "tf-app_LB" {
 #=====================================
 # create security group rules for the application load balancer
 resource "aws_security_group" "app_LB_SG" {
-  name        = var.lb_SG_name
+  name        = var.lb_SG_values["SG1_values"]["name"]
   description = "Defines the set of rules for the load balancer"
   vpc_id      = aws_vpc.terraform_vpc.id
 
@@ -39,5 +39,5 @@ resource "aws_security_group" "app_LB_SG" {
     }
   }
 
-  tags = var.pubSG-tags
+  tags = var.lb_SG_values["SG1_values"]["tags"]
 }

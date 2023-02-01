@@ -19,3 +19,4 @@ terraform_config/.terraform/
 # terraform state file
 terraform.tfstate
 terraform_config/terraform.tfstate
+terraform_config/terraform.tfstate.backup
