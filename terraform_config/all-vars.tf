@@ -218,3 +218,19 @@ variable "local-file_path" {
   description = "States where the ansible inventory file should be created"
   type        = string
 }
+
+variable "route53_zone_values" {
+  description = "holds the values for route53 hosted zone resource"
+  type = map(object({
+    domain_name = string
+    tags        = map(string)
+  }))
+}
+
+variable "route53-A_record_values" {
+  description = "holds the values for route53 alias (A) record resource"
+  type = map(object({
+    record_type  = string
+    check_health = bool
+  }))
+}

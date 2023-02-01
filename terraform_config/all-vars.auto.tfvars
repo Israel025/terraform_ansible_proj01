@@ -216,3 +216,19 @@ web_servers_values = {
 }
 
 LB-TG_attach_port = 80
+
+route53_zone_values = {
+  "HZ1_values" = {
+    domain_name = "megaitservices.com.ng"
+    tags = {
+      Route_for = "Terraform App"
+    }
+  }
+}
+
+route53-A_record_values = {
+  "record1_values" = {
+    record_type  = "A"
+    check_health = true
+  }
+}

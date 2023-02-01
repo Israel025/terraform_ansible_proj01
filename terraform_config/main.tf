@@ -6,7 +6,3 @@ provider "aws" {
   secret_key = var.aws_secret_key
 }
 #============================================
-
-# output "sub_len" {
-#   value = [for subs in aws_subnet.terraform-vpc_subnets : subs.id]
-# }
