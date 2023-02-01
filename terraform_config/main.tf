@@ -6,3 +6,10 @@ provider "aws" {
   secret_key = var.aws_secret_key
 }
 #============================================
+
+
+#============================================
+#Run the ansible script via terraform
+provisioner "local-exec" {
+  command = "ansible-playbook -i host-inventory ansible-tf_play.yml"
+}
