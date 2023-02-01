@@ -28,9 +28,4 @@ resource "aws_network_acl" "vpc_nacl1" {
   }
 
   tags = var.nacl1-tags
-
-  depends_on = [
-    aws_vpc.terraform_vpc,
-    aws_subnet.terraform-vpc_subnets
-  ]
 }

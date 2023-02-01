@@ -17,10 +17,6 @@ resource "aws_internet_gateway" "vpc-igw" {
   tags = {
     Name = var.igw_name-tag1
   }
-
-  depends_on = [
-    aws_vpc.terraform_vpc
-  ]
 }
 
 #==========================================
@@ -32,8 +28,4 @@ resource "aws_subnet" "terraform-vpc_subnets" {
   cidr_block              = each.value["subnet_cidr"]
   availability_zone       = each.value["av_zone"]
   tags                    = each.value["tags"]
-
-  depends_on = [
-    aws_vpc.terraform_vpc
-  ]
 }

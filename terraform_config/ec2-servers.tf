@@ -15,8 +15,6 @@ resource "aws_instance" "web_servers" {
   }
 
   depends_on = [
-    aws_internet_gateway.vpc-igw,
-    aws_subnet.terraform-vpc_subnets,
-    aws_vpc.terraform_vpc
+    aws_internet_gateway.vpc-igw
   ]
 }
